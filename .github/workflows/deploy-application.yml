@@ -18,7 +18,7 @@ jobs:
           npm run prod
 
       - name: Configure PHP 7.3.28
-        uses: fahad954/setup-php@master
+        uses: fahad954/Sanctum-Authentication@master
         with:
           php-version: 7.3.28
           extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml    
