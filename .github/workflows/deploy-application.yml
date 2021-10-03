@@ -2,23 +2,28 @@ name: Deploy Application
 
 on:
   push:
-     branches:
-       - "master"
+    branches: [ master ]
 
 jobs:
   create-deployment-artifacts:
     name: Create deployment artifacts
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
 
       - name: Compile CSS and javascript
         run: |
           npm install 
           npm run prod
-
+     
       - name: Configure PHP 7.3.28
         uses: fahad954/Sanctum-Authentication@master
         with:
           php-version: 7.3.28
-          extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml    
+          extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml
+
+      - name: Install Composer dependencies
+        run:  composer install --no-dev --no-interaction --prefer-dist
+
+      - name: Create deployment artifact
+        run: tar -czf app.tar.gz --exclude=*.git --exclude=node_modules *        
